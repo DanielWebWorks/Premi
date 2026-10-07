@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>2024 Porsche Macan | AutoFlow</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8fafc;
+            color: #111827;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            height: 76px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #111827;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-dark {
+            background: #111827;
+            color: #ffffff;
+        }
+
+        .btn-dark:hover {
+            background: #000000;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            border-color: #d1d5db;
+            background: #ffffff;
+            color: #111827;
+        }
+
+        .btn-outline:hover {
+            border-color: #111827;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: none;
+            background: transparent;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 50px 24px 80px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .back-link:hover {
+            color: #111827;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .gallery-main {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            background: #e5e7eb;
+            height: 520px;
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #ffffff;
+            color: #111827;
+            padding: 8px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .vehicle-label {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .vehicle-title {
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 14px;
+        }
+
+        .vehicle-price {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 26px;
+        }
+
+        .vehicle-price small {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 28px;
+        }
+
+        .spec {
+            padding: 18px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .spec:nth-child(odd) {
+            margin-right: 20px;
+        }
+
+        .spec:nth-last-child(-n+2) {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            display: block;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .spec-value {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .actions {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .actions .btn {
+            width: 100%;
+            min-height: 52px;
+        }
+
+        .seller {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .seller-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .seller-text {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .seller-phone {
+            display: inline-block;
+            margin-top: 12px;
+            color: #2563eb;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .description {
+            max-width: 850px;
+            margin-top: 70px;
+        }
+
+        .section-label {
+            color: #2563eb;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .description h2 {
+            font-size: 32px;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+        }
+
+        .description p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .feature {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .feature span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        footer {
+            background: #111827;
+            color: #ffffff;
+            padding: 30px 24px;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .footer-inner p {
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 76px;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 20px 24px;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 14px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-actions .btn {
+                padding: 10px 14px;
+                font-size: 13px;
+            }
+
+            .vehicle-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .gallery-main {
+                height: 400px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .page {
+                padding: 35px 18px 60px;
+            }
+
+            .gallery-main {
+                height: 300px;
+            }
+
+            .vehicle-title {
+                font-size: 40px;
+            }
+
+            .vehicle-price {
+                font-size: 26px;
+            }
+
+            .specs {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                Auto<span>Flow</span>
+            </a>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="inventory.html">Inventory</a>
+                <a href="favorites.html">Favorites</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="nav-actions">
+
+                <a href="login.html" class="btn btn-outline">
+                    Sign In
+                </a>
+
+                <a href="signup.html" class="btn btn-dark">
+                    Get Started
+                </a>
+
+            </div>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main class="page">
+
+        <a href="inventory.html" class="back-link">
+            ← Back to inventory
+        </a>
+
+        <div class="vehicle-grid">
+
+            <div>
+
+                <div class="gallery-main">
+
+                    <img src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=85"
+                        alt="2024 Porsche Macan">
+
+                    <span class="badge">
+                        Certified
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                <div class="vehicle-label">
+                    2024 • SUV
+                </div>
+
+                <h1 class="vehicle-title">
+                    Porsche Macan
+                </h1>
+
+                <div class="vehicle-price">
+                    <small>Starting at</small>
+                    $68,500
+                </div>
+
+                <div class="specs">
+
+                    <div class="spec">
+                        <span class="spec-label">Mileage</span>
+                        <span class="spec-value">12,400 miles</span>
+                    </div>
+
+                    <div class="spec">
+                        <span class="spec-label">Transmission</span>
+                        <span class="spec-value">Automatic</span>
+                    </div>
+
+                    <div class="spec">
+                        <span class="spec-label">Drivetrain</span>
+                        <span class="spec-value">AWD</span>
+                    </div>
+
+                    <div class="spec">
+                        <span class="spec-label">Fuel Type</span>
+                        <span class="spec-value">Gasoline</span>
+                    </div>
+
+                    <div class="spec">
+                        <span class="spec-label">Exterior</span>
+                        <span class="spec-value">Silver</span>
+                    </div>
+
+                    <div class="spec">
+                        <span class="spec-label">Availability</span>
+                        <span class="spec-value">Available</span>
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <a href="test-drive.html?vehicle=porsche" class="btn btn-dark">
+                        Schedule Test Drive
+                    </a>
+
+                    <a href="contact.html" class="btn btn-outline">
+                        Contact Dealer
+                    </a>
+
+                </div>
+
+                <div class="seller">
+
+                    <div class="seller-title">
+                        AutoFlow Certified Dealer
+                    </div>
+
+                    <div class="seller-text">
+                        This vehicle has been carefully inspected
+                        and is available for viewing and test drive.
+                    </div>
+
+                    <a href="contact.html" class="seller-phone">
+                        Contact dealer →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <section class="description">
+
+            <div class="section-label">
+                Vehicle overview
+            </div>
+
+            <h2>
+                Sporty performance with premium everyday comfort.
+            </h2>
+
+            <p>
+                The 2024 Porsche Macan blends athletic performance,
+                premium design, responsive handling, and practical
+                SUV versatility into one refined driving experience.
+            </p>
+
+            <div class="features">
+
+                <div class="feature">
+                    <strong>Sport Performance</strong>
+                    <span>
+                        Responsive handling with confident road performance.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Premium Cabin</strong>
+                    <span>
+                        Refined materials and a driver-focused interior.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>All-Wheel Drive</strong>
+                    <span>
+                        Added confidence across changing road conditions.
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <strong>
+                AutoFlow
+            </strong>
+
+            <p>
+                © 2026 AutoFlow. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script>
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const navLinks =
+            document.getElementById("navLinks");
+
+        mobileMenuBtn.addEventListener("click", function () {
+
+            navLinks.classList.toggle("active");
+
+        });
+
+    </script>
+
+</body>
+
+</html>

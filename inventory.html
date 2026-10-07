@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventory — AutoFlow</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f8fa;
+            color: #111827;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .navbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #111827;
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .nav-links a {
+            color: #6b7280;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #111827;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 55px 24px 90px;
+        }
+
+        .hero {
+            margin-bottom: 35px;
+        }
+
+        .label {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            letter-spacing: -1.5px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #6b7280;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        .filters {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 35px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr) auto;
+            gap: 14px;
+            align-items: end;
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .field select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            background: white;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .field select:focus {
+            border-color: #111827;
+        }
+
+        .search-btn {
+            height: 44px;
+            padding: 0 22px;
+            border: none;
+            border-radius: 9px;
+            background: #111827;
+            color: white;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .search-btn:hover {
+            background: #000;
+        }
+
+        .inventory-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .inventory-count {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .car-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(17, 24, 39, 0.08);
+        }
+
+        .car-image {
+            height: 230px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: white;
+            padding: 7px 10px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-type {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .car-name {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .car-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .car-details span {
+            background: #f3f4f6;
+            padding: 6px 8px;
+            border-radius: 6px;
+        }
+
+        .car-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 15px;
+        }
+
+        .price small {
+            display: block;
+            color: #6b7280;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .price strong {
+            font-size: 21px;
+        }
+
+        .view-btn {
+            background: #111827;
+            color: white;
+            padding: 11px 17px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .view-btn:hover {
+            background: #000;
+        }
+
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            color: #6b7280;
+        }
+
+        .footer {
+            margin-top: 70px;
+            padding: 30px 0;
+            border-top: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 950px) {
+            .filters {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .car-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .car-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                padding: 40px 16px 70px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <div class="logo-mark">A</div>
+                AutoFlow
+            </a>
+
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="inventory.html">Inventory</a>
+                <a href="favorites.html">Favorites</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <main class="page">
+
+        <section class="hero">
+
+            <div class="label">
+                AutoFlow Inventory
+            </div>
+
+            <h1>
+                Find your next vehicle.
+            </h1>
+
+            <p>
+                Browse our selection of inspected and verified vehicles.
+                Use the filters below to quickly find the right vehicle
+                for your needs and budget.
+            </p>
+
+        </section>
+
+
+        <section class="filters">
+
+            <div class="field">
+
+                <label for="make">
+                    Make
+                </label>
+
+                <select id="make">
+
+                    <option value="all">
+                        Any Make
+                    </option>
+
+                    <option value="bmw">
+                        BMW
+                    </option>
+
+                    <option value="tesla">
+                        Tesla
+                    </option>
+
+                    <option value="mercedes">
+                        Mercedes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="model">
+                    Model
+                </label>
+
+                <select id="model">
+
+                    <option value="all">
+                        Any Model
+                    </option>
+
+                    <option value="3 series">
+                        3 Series
+                    </option>
+
+                    <option value="model 3">
+                        Model 3
+                    </option>
+
+                    <option value="c-class">
+                        C-Class
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="price">
+                    Price
+                </label>
+
+                <select id="price">
+
+                    <option value="all">
+                        Any Price
+                    </option>
+
+                    <option value="under30">
+                        Under $30k
+                    </option>
+
+                    <option value="30to50">
+                        $30k - $50k
+                    </option>
+
+                    <option value="50to80">
+                        $50k - $80k
+                    </option>
+
+                    <option value="over80">
+                        $80k+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="condition">
+                    Condition
+                </label>
+
+                <select id="condition">
+
+                    <option value="all">
+                        Any Condition
+                    </option>
+
+                    <option value="new">
+                        New
+                    </option>
+
+                    <option value="certified">
+                        Certified
+                    </option>
+
+                    <option value="electric">
+                        Electric
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button class="search-btn" onclick="filterCars()">
+                Search
+            </button>
+
+        </section>
+
+
+        <div class="inventory-top">
+
+            <div>
+                <strong>Featured vehicles</strong>
+            </div>
+
+            <div class="inventory-count" id="inventoryCount">
+                6 vehicles
+            </div>
+
+        </div>
+
+
+        <section class="car-grid" id="carGrid">
+
+
+            <!-- BMW -->
+
+            <article class="car-card" data-make="bmw" data-model="3 series" data-price="42900"
+                data-condition="certified">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80"
+                        alt="BMW 3 Series">
+
+                    <span class="badge">
+                        Certified
+                    </span>
+
+                    <button class="heart" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2024 • Sedan
+                    </div>
+
+                    <h2 class="car-name">
+                        BMW 3 Series
+                    </h2>
+
+                    <div class="car-details">
+
+                        <span>
+                            12,450 mi
+                        </span>
+
+                        <span>
+                            Automatic
+                        </span>
+
+                        <span>
+                            AWD
+                        </span>
+
+                    </div>
+
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+
+                            <small>
+                                Starting at
+                            </small>
+
+                            <strong>
+                                $42,900
+                            </strong>
+
+                        </div>
+
+                        <a href="car-bmw.html" class="view-btn">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- TESLA -->
+
+            <article class="car-card" data-make="tesla" data-model="model 3" data-price="39500"
+                data-condition="electric">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1000&q=80"
+                        alt="Tesla Model 3">
+
+                    <span class="badge">
+                        Electric
+                    </span>
+
+                    <button class="heart" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2024 • Electric Sedan
+                    </div>
+
+                    <h2 class="car-name">
+                        Tesla Model 3
+                    </h2>
+
+                    <div class="car-details">
+
+                        <span>
+                            8,210 mi
+                        </span>
+
+                        <span>
+                            Automatic
+                        </span>
+
+                        <span>
+                            RWD
+                        </span>
+
+                    </div>
+
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+
+                            <small>
+                                Starting at
+                            </small>
+
+                            <strong>
+                                $39,500
+                            </strong>
+
+                        </div>
+
+                        <a href="car-tesla.html" class="view-btn">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- MERCEDES -->
+
+            <article class="car-card" data-make="mercedes" data-model="c-class" data-price="51800" data-condition="new">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1000&q=80"
+                        alt="Mercedes C-Class">
+
+                    <span class="badge">
+                        New
+                    </span>
+
+                    <button class="heart" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2025 • Luxury Sedan
+                    </div>
+
+                    <h2 class="car-name">
+                        Mercedes C-Class
+                    </h2>
+
+                    <div class="car-details">
+
+                        <span>
+                            3,120 mi
+                        </span>
+
+                        <span>
+                            Automatic
+                        </span>
+
+                        <span>
+                            AWD
+                        </span>
+
+                    </div>
+
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+
+                            <small>
+                                Starting at
+                            </small>
+
+                            <strong>
+                                $51,800
+                            </strong>
+
+                        </div>
+
+                        <a href="car-mercedes.html" class="view-btn">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- CAR 4 -->
+
+            <article class="car-card" data-make="audi" data-model="q5" data-price="46900" data-condition="used">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80"
+                        alt="2023 Audi Q5" />
+
+                    <span class="badge">
+                        Used
+                    </span>
+
+                    <button class="heart" data-car="audi" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2023 • SUV
+                    </div>
+
+                    <h3 class="car-name">
+                        Audi Q5
+                    </h3>
+
+                    <div class="car-details">
+                        <span>Used</span>
+                        <span>Automatic</span>
+                        <span>AWD</span>
+                    </div>
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+                            <small>Starting at</small>
+                            <strong>$46,900</strong>
+                        </div>
+
+                        <a href="car-audi.html" class="btn btn-outline">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- CAR 5 -->
+
+            <article class="car-card" data-make="porsche" data-model="macan" data-price="68500"
+                data-condition="certified">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1000&q=80"
+                        alt="2024 Porsche Macan" />
+
+                    <span class="badge">
+                        Certified
+                    </span>
+
+                    <button class="heart" data-car="porsche" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2024 • SUV
+                    </div>
+
+                    <h3 class="car-name">
+                        Porsche Macan
+                    </h3>
+
+                    <div class="car-details">
+                        <span>8,200 mi</span>
+                        <span>Automatic</span>
+                        <span>AWD</span>
+                    </div>
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+                            <small>Starting at</small>
+                            <strong>$68,500</strong>
+                        </div>
+
+                        <a href="car-porsche.html" class="btn btn-outline">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+            <!-- CAR 6 -->
+
+            <article class="car-card" data-make="range rover" data-model="range rover sport" data-price="92000"
+                data-condition="new">
+
+                <div class="car-image">
+
+                    <img src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80"
+                        alt="2025 Range Rover Sport" />
+
+                    <span class="badge">
+                        New
+                    </span>
+
+                    <button class="heart" data-car="range-rover" onclick="toggleHeart(this)">
+                        ♡
+                    </button>
+
+                </div>
+
+                <div class="car-info">
+
+                    <div class="car-type">
+                        2025 • SUV
+                    </div>
+
+                    <h3 class="car-name">
+                        Range Rover Sport
+                    </h3>
+
+                    <div class="car-details">
+                        <span>5,800 mi</span>
+                        <span>Automatic</span>
+                        <span>AWD</span>
+                    </div>
+
+                    <div class="car-bottom">
+
+                        <div class="price">
+                            <small>Starting at</small>
+                            <strong>$92,000</strong>
+                        </div>
+
+                        <a href="car-range-rover.html" class="btn btn-outline">
+                            View
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+        <div class="no-results" id="noResults">
+            <h2>
+                No vehicles found
+            </h2>
+
+            <p>
+                Try changing your filters to see more vehicles.
+            </p>
+        </div>
+
+
+        <footer class="footer">
+
+            © 2026 AutoFlow. All rights reserved.
+
+        </footer>
+
+    </main>
+
+
+    <script>
+
+        function filterCars() {
+
+            const make =
+                document.getElementById("make").value;
+
+            const model =
+                document.getElementById("model").value;
+
+            const price =
+                document.getElementById("price").value;
+
+            const condition =
+                document.getElementById("condition").value;
+
+
+            const cars =
+                document.querySelectorAll(".car-card");
+
+
+            let visible = 0;
+
+
+            cars.forEach(function (car) {
+
+                const carMake =
+                    car.dataset.make;
+
+                const carModel =
+                    car.dataset.model;
+
+                const carPrice =
+                    Number(car.dataset.price);
+
+                const carCondition =
+                    car.dataset.condition;
+
+
+                let show = true;
+
+
+                if (
+                    make !== "all" &&
+                    carMake !== make
+                ) {
+                    show = false;
+                }
+
+
+                if (
+                    model !== "all" &&
+                    carModel !== model
+                ) {
+                    show = false;
+                }
+
+
+                if (price === "under30" && carPrice >= 30000) {
+                    show = false;
+                }
+
+
+                if (
+                    price === "30to50" &&
+                    (carPrice < 30000 || carPrice > 50000)
+                ) {
+                    show = false;
+                }
+
+
+                if (
+                    price === "50to80" &&
+                    (carPrice < 50000 || carPrice > 80000)
+                ) {
+                    show = false;
+                }
+
+
+                if (
+                    price === "over80" &&
+                    carPrice < 80000
+                ) {
+                    show = false;
+                }
+
+
+                if (
+                    condition !== "all" &&
+                    carCondition !== condition
+                ) {
+                    show = false;
+                }
+
+
+                car.style.display =
+                    show ? "block" : "none";
+
+
+                if (show) {
+                    visible++;
+                }
+
+            });
+
+
+            document.getElementById("inventoryCount").innerText =
+                visible + (visible === 1 ? " vehicle" : " vehicles");
+
+
+            document.getElementById("noResults").style.display =
+                visible === 0 ? "block" : "none";
+
+        }
+
+
+        function toggleHeart(button) {
+
+            const carId = button.dataset.car;
+
+            let favorites =
+                JSON.parse(localStorage.getItem("autoflow-favorites")) || [];
+
+            if (favorites.includes(carId)) {
+
+                favorites = favorites.filter(id => id !== carId);
+
+                button.innerHTML = "♡";
+                button.style.color = "";
+
+            } else {
+
+                favorites.push(carId);
+
+                button.innerHTML = "♥";
+                button.style.color = "#ef4444";
+            }
+
+            localStorage.setItem(
+                "autoflow-favorites",
+                JSON.stringify(favorites)
+            );
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Schedule a Test Drive | AutoFlow</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fa;
+            color: #111827;
+        }
+
+        /* Navbar */
+
+        nav {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #111827;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #2563eb;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a:hover {
+            color: #2563eb;
+        }
+
+        /* Page */
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 70px 20px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .intro span {
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .intro h1 {
+            font-size: 42px;
+            margin: 12px 0;
+        }
+
+        .intro p {
+            color: #6b7280;
+            max-width: 600px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* Card */
+
+        .booking-card {
+            max-width: 720px;
+            margin: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 40px;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+
+            font-size: 14px;
+            outline: none;
+
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+
+            background: #111827;
+            color: white;
+
+            padding: 15px;
+            border-radius: 9px;
+
+            font-size: 15px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #2563eb;
+        }
+
+        .success {
+            display: none;
+
+            margin-top: 20px;
+            padding: 15px;
+
+            background: #ecfdf5;
+            color: #047857;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+
+        footer {
+            margin-top: 80px;
+            padding: 30px 20px;
+
+            text-align: center;
+
+            color: #6b7280;
+            font-size: 13px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .intro h1 {
+                font-size: 32px;
+            }
+
+            .booking-card {
+                padding: 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav>
+
+        <a href="index.html" class="logo">
+            Auto<span>Flow</span>
+        </a>
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="inventory.html">
+                Inventory
+            </a>
+
+            <a href="favorites.html">
+                Favorites
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- Page -->
+
+    <main class="page">
+
+        <div class="intro">
+
+            <span>
+                Experience the vehicle
+            </span>
+
+            <h1>
+                Schedule a Test Drive
+            </h1>
+
+            <p>
+                Choose your preferred vehicle, date and time.
+                Our dealership team will confirm your appointment shortly.
+            </p>
+
+        </div>
+
+
+        <!-- Booking Form -->
+
+        <div class="booking-card">
+
+            <form id="testDriveForm">
+
+                <div class="form-row">
+
+                    <div class="field">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input type="text" id="name" placeholder="John Smith" required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input type="email" id="email" placeholder="john@example.com" required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="vehicle">
+                        Select Vehicle
+                    </label>
+
+                    <select id="vehicle" required>
+
+                        <option value="">
+                            Choose a vehicle
+                        </option>
+
+                        <option value="2024 BMW 3 Series">
+                            2024 BMW 3 Series
+                        </option>
+
+                        <option value="2024 Tesla Model 3">
+                            2024 Tesla Model 3
+                        </option>
+
+                        <option value="2025 Mercedes C-Class">
+                            2025 Mercedes C-Class
+                        </option>
+
+                        <option value="2023 Audi Q5">
+                            2023 Audi Q5
+                        </option>
+
+                        <option value="2024 Porsche Macan">
+                            2024 Porsche Macan
+                        </option>
+
+                        <option value="2025 Range Rover Sport">
+                            2025 Range Rover Sport
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="field">
+
+                        <label for="date">
+                            Preferred Date
+                        </label>
+
+                        <input type="date" id="date" required>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="time">
+                            Preferred Time
+                        </label>
+
+                        <select id="time" required>
+
+                            <option value="">
+                                Choose a time
+                            </option>
+
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                            <option>5:00 PM</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="notes">
+                        Additional Notes
+                    </label>
+
+                    <textarea id="notes" placeholder="Anything you'd like us to know?"></textarea>
+
+                </div>
+
+
+                <button type="submit" class="submit-btn">
+                    Request Test Drive
+                </button>
+
+
+                <div id="successMessage" class="success">
+                    ✓ Your test drive request has been received.
+                    We'll contact you shortly to confirm your appointment.
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        © 2026 AutoFlow. All rights reserved.
+    </footer>
+
+
+    <script>
+
+        const testDriveForm =
+            document.getElementById("testDriveForm");
+        const params = new URLSearchParams(window.location.search);
+        const selectedVehicle = params.get("vehicle");
+
+        const vehicleSelect =
+            document.getElementById("vehicle");
+
+        if (selectedVehicle === "bmw") {
+            vehicleSelect.value = "2024 BMW 3 Series";
+        }
+
+        if (selectedVehicle === "tesla") {
+            vehicleSelect.value = "2024 Tesla Model 3";
+        }
+
+        if (selectedVehicle === "mercedes") {
+            vehicleSelect.value = "2025 Mercedes C-Class";
+        }
+
+        if (selectedVehicle === "audi") {
+            vehicleSelect.value = "2023 Audi Q5";
+        }
+
+        if (selectedVehicle === "porsche") {
+            vehicleSelect.value = "2024 Porsche Macan";
+        }
+
+        if (selectedVehicle === "range-rover") {
+            vehicleSelect.value = "2025 Range Rover Sport";
+        }
+
+        testDriveForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                const appointment = {
+
+                    id: Date.now(),
+
+                    name:
+                        document.getElementById("name").value.trim(),
+
+                    email:
+                        document.getElementById("email").value.trim(),
+
+                    vehicle:
+                        document.getElementById("vehicle").value,
+
+                    date:
+                        document.getElementById("date").value,
+
+                    time:
+                        document.getElementById("time").value,
+
+                    notes:
+                        document.getElementById("notes").value.trim()
+
+                };
+
+
+                const appointments =
+                    JSON.parse(
+                        localStorage.getItem("autoflow-test-drives")
+                    ) || [];
+
+
+                appointments.push(appointment);
+
+
+                localStorage.setItem(
+                    "autoflow-test-drives",
+                    JSON.stringify(appointments)
+                );
+
+
+                document.getElementById(
+                    "successMessage"
+                ).style.display = "block";
+
+
+                testDriveForm.reset();
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Favorites — AutoFlow</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f8fa;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            height: 100%;
+            margin: auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #111827;
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+
+        .nav-links a:hover {
+            color: #111827;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: none;
+            background: transparent;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 70px 24px 100px;
+        }
+
+        .page-header {
+            margin-bottom: 48px;
+            max-width: 720px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: #111827;
+            background: #f3f4f6;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin-bottom: 14px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 58px);
+            letter-spacing: -2px;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .car-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.07);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        .car-image {
+            height: 230px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            background: white;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .car-info {
+            padding: 22px;
+        }
+
+        .car-type {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        .car-name {
+            font-size: 21px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .car-details {
+            display: flex;
+            gap: 14px;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .car-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .view-btn {
+            padding: 11px 16px;
+            border-radius: 9px;
+            background: #111827;
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .remove-btn {
+            margin-top: 12px;
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .remove-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 70px 25px;
+        }
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 18px;
+        }
+
+        .empty-state h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        .browse-btn {
+            display: inline-block;
+            background: #111827;
+            color: white;
+            padding: 13px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 76px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                gap: 0;
+                padding: 20px 24px;
+                border-bottom: 1px solid #e5e7eb;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 14px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .favorites-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <div class="logo-mark">A</div>
+                AutoFlow
+            </a>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="inventory.html">Inventory</a>
+                <a href="favorites.html">Favorites</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
+        </div>
+    </header>
+
+    <main class="page">
+
+        <div class="page-header">
+            <div class="eyebrow">Your Saved Vehicles</div>
+            <h1>Favorites.</h1>
+            <p>Keep track of the vehicles you're interested in.</p>
+        </div>
+
+        <div class="favorites-grid" id="favoritesGrid"></div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">♡</div>
+            <h2>No favorites yet</h2>
+            <p>Save a vehicle from our inventory and it will appear here.</p>
+            <a href="inventory.html" class="browse-btn">Browse Inventory</a>
+        </div>
+
+    </main>
+
+    <footer>
+        © 2026 AutoFlow. All rights reserved.
+    </footer>
+
+    <script>
+        const cars = {
+            bmw: {
+                name: "2024 BMW 3 Series",
+                type: "Certified",
+                price: "$42,900",
+                details: "12,450 miles • AWD",
+                image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80",
+                link: "car-bmw.html"
+            },
+
+            tesla: {
+                name: "2024 Tesla Model 3",
+                type: "Electric",
+                price: "$39,500",
+                details: "8,240 miles • AWD",
+                image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=900&q=80",
+                link: "car-tesla.html"
+            },
+
+            mercedes: {
+                name: "2025 Mercedes C-Class",
+                type: "New",
+                price: "$51,800",
+                details: "3,120 miles • AWD",
+                image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80",
+                link: "car-mercedes.html"
+            },
+
+            audi: {
+                name: "2023 Audi Q5",
+                type: "Used",
+                price: "$46,900",
+                details: "18,600 miles • AWD",
+                image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80",
+                link: "car-audi.html"
+            },
+
+            porsche: {
+                name: "2024 Porsche Macan",
+                type: "Certified",
+                price: "$68,500",
+                details: "8,200 miles • AWD",
+                image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=900&q=80",
+                link: "car-porsche.html"
+            },
+
+            "range-rover": {
+                name: "2025 Range Rover Sport",
+                type: "New",
+                price: "$92,000",
+                details: "5,800 miles • AWD",
+                image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80",
+                link: "car-range-rover.html"
+            }
+        };
+
+
+
+        const favoritesGrid = document.getElementById("favoritesGrid");
+        const emptyState = document.getElementById("emptyState");
+
+        function loadFavorites() {
+            const favorites =
+                JSON.parse(localStorage.getItem("autoflow-favorites")) || [];
+
+            favoritesGrid.innerHTML = "";
+
+            if (favorites.length === 0) {
+                emptyState.style.display = "block";
+                return;
+            }
+
+            emptyState.style.display = "none";
+
+            favorites.forEach(id => {
+                const car = cars[id];
+
+                if (!car) return;
+
+                const card = document.createElement("article");
+                card.className = "car-card";
+
+                card.innerHTML = `
+                <div class="car-image">
+                    <img src="${car.image}" alt="${car.name}">
+                    <div class="badge">${car.type}</div>
+                </div>
+
+                <div class="car-info">
+                    <div class="car-type">AutoFlow Inventory</div>
+                    <div class="car-name">${car.name}</div>
+
+                    <div class="car-details">
+                        ${car.details}
+                    </div>
+
+                    <div class="car-bottom">
+                        <div class="price">${car.price}</div>
+                        <a href="${car.link}" class="view-btn">
+                            View Vehicle
+                        </a>
+                    </div>
+
+                    <button class="remove-btn" onclick="removeFavorite('${id}')">
+                        Remove from Favorites
+                    </button>
+                </div>
+            `;
+
+                favoritesGrid.appendChild(card);
+            });
+        }
+
+        function removeFavorite(id) {
+            let favorites =
+                JSON.parse(localStorage.getItem("autoflow-favorites")) || [];
+
+            favorites = favorites.filter(item => item !== id);
+
+            localStorage.setItem(
+                "autoflow-favorites",
+                JSON.stringify(favorites)
+            );
+
+            loadFavorites();
+        }
+
+        const mobileMenuBtn =
+            document.getElementById("mobileMenuBtn");
+
+        const navLinks =
+            document.getElementById("navLinks");
+
+        mobileMenuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+            });
+        });
+
+        loadFavorites();
+    </script>
+
+</body>
+
+</html>

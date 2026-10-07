@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mercedes-Benz C-Class — AutoFlow</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f8fa;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .navbar {
+            height: 76px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: #111827;
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+
+        .back {
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .back:hover {
+            color: #111827;
+        }
+
+        .page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 45px 24px 90px;
+        }
+
+        .breadcrumb {
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        .vehicle-layout {
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .gallery {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            height: 500px;
+            position: relative;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .certified {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            background: white;
+            padding: 9px 13px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .gallery-bottom {
+            padding: 18px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .thumb {
+            height: 90px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .thumb:hover {
+            border-color: #111827;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .details-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 30px;
+        }
+
+        .vehicle-type {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 42px;
+            letter-spacing: -1.5px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        .price {
+            font-size: 34px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .price-note {
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 25px;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 25px 0;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .spec {
+            background: #f9fafb;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .spec span {
+            display: block;
+            color: #6b7280;
+            font-size: 11px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .spec strong {
+            font-size: 14px;
+        }
+
+        .actions {
+            display: grid;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .action-link {
+            display: flex !important;
+            width: 100% !important;
+            height: 50px !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 15px !important;
+            border-radius: 10px !important;
+            font-weight: 800 !important;
+            font-size: 14px !important;
+            text-decoration: none !important;
+        }
+
+        a.primary.action-link {
+            background: #111827 !important;
+            color: white !important;
+        }
+
+        a.secondary.action-link {
+            background: white !important;
+            color: #111827 !important;
+            border: 1px solid #d1d5db !important;
+        }
+
+        .primary {
+            background: #111827;
+            color: white;
+        }
+
+        .primary:hover {
+            background: #000;
+        }
+
+        .secondary {
+            background: white;
+            border: 1px solid #d1d5db;
+            color: #111827;
+        }
+
+        .secondary:hover {
+            background: #f3f4f6;
+        }
+
+        .section {
+            margin-top: 30px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 30px;
+        }
+
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            color: #6b7280;
+            line-height: 1.7;
+            max-width: 800px;
+        }
+
+        .seller {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .seller strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .seller span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        @media (max-width: 850px) {
+            .vehicle-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .main-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .page {
+                padding: 30px 16px 70px;
+            }
+
+            .main-image {
+                height: 280px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .details-card {
+                padding: 22px;
+            }
+
+            .action-link {
+                display: flex;
+                width: 100%;
+                min-height: 50px;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 15px;
+                border-radius: 10px;
+                font-weight: 800;
+                font-size: 14px;
+                text-decoration: none;
+            }
+
+            .primary.action-link {
+                background: #111827;
+                color: white;
+            }
+
+            .primary.action-link:hover {
+                background: #000;
+            }
+
+            .secondary.action-link {
+                background: white;
+                border: 1px solid #d1d5db;
+                color: #111827;
+            }
+
+            .secondary.action-link:hover {
+                background: #f3f4f6;
+            }
+
+            .seller {
+                display: block;
+            }
+
+            .seller button {
+                margin-top: 15px;
+                width: 100%;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: none;
+            background: transparent;
+            font-size: 28px;
+            cursor: pointer;
+            color: #111827;
+            padding: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+
+            .nav-links {
+                display: none !important;
+                position: absolute;
+                top: 76px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 20px 24px;
+                border-bottom: 1px solid #e5e7eb;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+
+            .nav-links.active {
+                display: flex !important;
+            }
+
+            .nav-links a {
+                width: 100%;
+                padding: 14px 0;
+            }
+
+            .back {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+        <div class="nav-container">
+
+            <a href="index.html" class="logo">
+                <div class="logo-mark">A</div>
+                AutoFlow
+            </a>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="inventory.html">Inventory</a>
+                <a href="favorites.html">Favorites</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <a href="inventory.html" class="back">
+                ← Back to inventory
+            </a>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn" type="button">
+                ☰
+            </button>
+
+        </div>
+    </header>
+
+
+    <main class="page">
+
+        <div class="breadcrumb">
+            Inventory / Mercedes-Benz / C-Class
+        </div>
+
+
+        <div class="vehicle-layout">
+
+            <div class="gallery">
+
+                <div class="main-image">
+
+                    <img id="mainImage"
+                        src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1400&q=85"
+                        alt="Mercedes-Benz C-Class">
+
+                    <div class="certified">
+                        ✓ AutoFlow Certified
+                    </div>
+
+                </div>
+
+
+                <div class="gallery-bottom">
+
+                    <div class="thumb">
+                        <img onclick="changeImage(this)"
+                            src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80"
+                            alt="Mercedes-Benz C-Class">
+                    </div>
+
+                    <div class="thumb">
+                        <img onclick="changeImage(this)"
+                            src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80"
+                            alt="Mercedes-Benz C-Class">
+                    </div>
+
+                    <div class="thumb">
+                        <img onclick="changeImage(this)"
+                            src="https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=800&q=80"
+                            alt="Mercedes-Benz C-Class">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="details-card">
+
+                <div class="vehicle-type">
+                    2025 • Luxury Sedan
+                </div>
+
+                <h1>Mercedes C-Class</h1>
+
+                <p class="subtitle">
+                    C300 4MATIC • AMG Line • Premium Package
+                </p>
+
+                <div class="price">
+                    $51,800
+                </div>
+
+                <div class="price-note">
+                    Estimated monthly payment from $845/mo
+                </div>
+
+                <div class="divider"></div>
+
+
+                <div class="spec-grid">
+
+                    <div class="spec">
+                        <span>Mileage</span>
+                        <strong>3,120 miles</strong>
+                    </div>
+
+                    <div class="spec">
+                        <span>Transmission</span>
+                        <strong>Automatic</strong>
+                    </div>
+
+                    <div class="spec">
+                        <span>Drivetrain</span>
+                        <strong>AWD</strong>
+                    </div>
+
+                    <div class="spec">
+                        <span>Fuel</span>
+                        <strong>Gasoline</strong>
+                    </div>
+
+                    <div class="spec">
+                        <span>Engine</span>
+                        <strong>2.0L Turbo</strong>
+                    </div>
+
+                    <div class="spec">
+                        <span>Exterior</span>
+                        <strong>Obsidian Black</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="actions">
+
+                    <a href="test-drive.html?vehicle=mercedes" class="primary action-link">
+                        Schedule a Test Drive
+                    </a>
+
+                    <a href="contact.html" class="secondary action-link">
+                        Contact Dealer
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <section class="section">
+
+            <h2>About this vehicle</h2>
+
+            <p>
+                This 2025 Mercedes-Benz C-Class combines refined luxury,
+                advanced technology and confident performance. Featuring
+                the AMG Line, premium interior materials and modern driver
+                assistance technology, this vehicle delivers a sophisticated
+                everyday driving experience.
+            </p>
+
+
+            <div class="seller">
+
+                <div>
+
+                    <strong>AutoFlow Premium Motors</strong>
+
+                    <span>
+                        Verified dealership • 4.9 ★ rating
+                    </span>
+
+                </div>
+
+
+                <button class="secondary" onclick="contactDealer()">
+                    View dealership
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function changeImage(image) {
+            document.getElementById("mainImage").src = image.src;
+        }
+
+
+        function scheduleTestDrive() {
+            alert(
+                "Test drive request started. We'll build the full booking form next."
+            );
+        }
+
+
+        function contactDealer() {
+            alert(
+                "Dealer contact panel coming next."
+            );
+        }
+
+    </script>
+
+    <script>
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        mobileMenuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+            });
+        });
+
+        // Recently Viewed
+        const recentlyViewed =
+            JSON.parse(
+                localStorage.getItem("autoflow-recently-viewed")
+            ) || [];
+
+        if (!recentlyViewed.includes("mercedes")) {
+            recentlyViewed.unshift("mercedes");
+        }
+
+        const limitedRecentlyViewed =
+            recentlyViewed.slice(0, 5);
+
+        localStorage.setItem(
+            "autoflow-recently-viewed",
+            JSON.stringify(limitedRecentlyViewed)
+        );
+    </script>
+
+</body>
+
+</html>
